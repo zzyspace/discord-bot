@@ -15,7 +15,7 @@ def get_content():
     content = random.choice(contents)
     return content
 
-def chat(authorization, chanel_id):
+def chat(authorization, channel_id):
     header = {
         "authorization": authorization,
         "content-type": "application/json",
@@ -27,7 +27,7 @@ def chat(authorization, chanel_id):
         "nonce": "10767619081{}01984".format(random.randrange(0, 1000)),  # 923802142370693120 923802484009336832
         "tts": False
     }
-    url = 'https://discord.com/api/v9/channels/{}/messages'.format(chanel_id)
+    url = 'https://discord.com/api/v9/channels/{}/messages'.format(channel_id)
     proxy = conf()['proxy']
     proxy_str = f"socks5h://{proxy['username']}:{proxy['password']}@{proxy['host']}:{proxy['port']}"
     proxies = {
@@ -35,19 +35,20 @@ def chat(authorization, chanel_id):
         "https": proxy_str,
     }
     try:
-        logger.info(f'sending "{content}" ...')
+        logger.info(f'sending "{content}" to [{channel_id}]...')
         res = requests.post(url=url, headers=header, data=json.dumps(msg), proxies=proxies)#, verify=False)
         logger.info('sent!')
     except requests.RequestException as e:
         logger.error(e)
 
 if __name__ == '__main__':
+    logger.info('\nStart chat\n')
     while True:
         channels = json.loads(conf()['keys']['channels'])
         for channel in channels:
             chat(conf()['keys']['authorization'], channel)
             time.sleep(5)
 
-        minutes = random.randrange(60, 80)
+        minutes = random.randrange(20, 60)
         logger.info(f'waiting for {minutes} minutes...')
         time.sleep(minutes * 60)
