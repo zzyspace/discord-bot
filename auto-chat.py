@@ -42,7 +42,7 @@ def chat(authorization, channel_id):
         logger.error(e)
 
 if __name__ == '__main__':
-    logger.info('\nStart chat\n')
+    logger.info('******** Start chat ********')
     while True:
         channels = json.loads(conf()['keys']['channels'])
         for channel in channels:
