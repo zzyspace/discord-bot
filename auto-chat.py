@@ -43,6 +43,11 @@ def chat(authorization, chanel_id):
 
 if __name__ == '__main__':
     while True:
-        chat(conf()['keys']['authorization'], conf()['keys']['channel'])
-        logger.info('waiting for 1 hour...')
-        time.sleep(60*60)
+        channels = json.loads(conf()['keys']['channels'])
+        for channel in channels:
+            chat(conf()['keys']['authorization'], channel)
+            time.sleep(5)
+
+        minutes = random.randrange(60, 80)
+        logger.info(f'waiting for {minutes} minutes...')
+        time.sleep(minutes * 60)
