@@ -1,6 +1,8 @@
-import configparser
+
 import os
+import sys
 import logging
+import configparser
 from logging.handlers import RotatingFileHandler
 
 _logs_directory = 'logs'
@@ -18,7 +20,7 @@ def _get_logger():
     )
     file_handler.setFormatter(formatter)
 
-    console_handler = logging.StreamHandler()
+    console_handler = logging.StreamHandler(sys.stdout)
     console_handler.setFormatter(formatter)
 
     logger = logging.getLogger('log')
